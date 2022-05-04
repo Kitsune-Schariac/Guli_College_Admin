@@ -121,7 +121,7 @@ export default {
             message: "保存成功!",
           })
           //跳转到第二步
-          this.$router.push({path : '/course/chapter/'+response.data.courseInfo})
+          this.$router.push({path : '/course/chapter/'+response.data.courseId})
         })
 
     }
