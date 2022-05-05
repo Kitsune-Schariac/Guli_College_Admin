@@ -14,24 +14,35 @@
       </el-form-item>
 
       <!-- 所属分类 TODO -->
-      <el-form-item label="课程分类" hidden="true">
-        <el-select
-          v-model="courseInfo.subjectParentId"
-          placeholder="一级分类" @change="subjectLevelOneChanged">
+<!--      <el-form-item label="课程分类" hidden="true">-->
+<!--        <el-select-->
+<!--          v-model="courseInfo.subjectParentId"-->
+<!--          placeholder="一级分类" @change="subjectLevelOneChanged">-->
 
+<!--          <el-option-->
+<!--            v-for="subject in subjectOneList"-->
+<!--            :key="subject.id"-->
+<!--            :label="subject.title"-->
+<!--            :value="subject.id"/>-->
+
+<!--        </el-select>-->
+
+<!--        &lt;!&ndash; 二级分类 &ndash;&gt;-->
+<!--        <el-select v-model="courseInfo.subjectId" placeholder="二级分类">-->
+<!--          <el-option-->
+<!--            v-for="subject in subjectTwoList"-->
+<!--            :key="subject.id"-->
+<!--            :label="subject.title"-->
+<!--            :value="subject.id"/>-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+
+<!--      课程分类-->
+      <el-form-item label="课程分类">
+        <el-select v-model="courseInfo.subjectParentId" placeholder="一级分类">
           <el-option
-            v-for="subject in subjectOneList"
-            :key="subject.id"
-            :label="subject.title"
-            :value="subject.id"/>
-
-        </el-select>
-
-        <!-- 二级分类 -->
-        <el-select v-model="courseInfo.subjectId" placeholder="二级分类">
-          <el-option
-            v-for="subject in subjectTwoList"
-            :key="subject.id"
+            v-for = "subject in subjectOneList"
+            :key = "subject.id"
             :label="subject.title"
             :value="subject.id"/>
         </el-select>
@@ -40,17 +51,13 @@
 
       <!-- 课程讲师 TODO -->
       <!-- 课程讲师 -->
-      <el-form-item label="课程讲师" hidden="true">
-        <el-select
-          v-model="courseInfo.teacherId"
-          placeholder="请选择">
-
+      <el-form-item label="课程讲师">
+        <el-select v-model="courseInfo.teacherId" placeholder="请选择">
           <el-option
-            v-for="teacher in teacherList"
-            :key="teacher.id"
+            v-for = "teacher in teacherList"
+            :key = "teacher.id"
             :label="teacher.name"
             :value="teacher.id"/>
-
         </el-select>
       </el-form-item>
 
@@ -93,22 +100,40 @@
 
 <script>
 import course from '@/api/edu/course'
+import subject from "@/api/edu/subject";
 export default {
   data() {
     return {
       saveBtnDisabled: false,
       courseInfo: {
         title: '',
-        subjectId: '',
+        subjectId: '',  //二级分类id
+        subjectParentId: '',  //一级分类id
         teacherId: '',
         lessonNum: 0,
         description: '',
         cover: '',
         price: 0
-      }
+      },
+      //封装所有的讲师
+      teacherList: [
+
+      ],
+      //封装所有的课程一级分类
+      subjectOneList: [
+
+      ],
+      //二级分类
+      subjectTwoList: [
+
+      ]
     }
   },
   created() {
+    //初始化所有讲师
+    this.getListTeacher()
+    //初始化一级分类
+    this.getOneSubject()
 
   },
   methods: {
@@ -124,6 +149,20 @@ export default {
           this.$router.push({path : '/course/chapter/'+response.data.courseId})
         })
 
+    },
+    //查询所有的讲师
+    getListTeacher(){
+      course.getListTeacher()
+        .then(response => {
+          this.teacherList = response.data.items
+        })
+    },
+    //查询所有的一级课程分类
+    getOneSubject(){
+      subject.getSubjectList()
+        .then(response => {
+          this.subjectOneList = response.data.list
+        })
     }
   }
 }
