@@ -82,7 +82,7 @@
 
       <!-- 课程封面 TODO -->
       <!-- 课程封面-->
-      <el-form-item label="课程封面" hidden="true">
+      <el-form-item label="课程封面">
 
         <el-upload
           :show-file-list="false"
@@ -121,8 +121,8 @@ export default {
         teacherId: '',
         lessonNum: 0,
         description: '',
-        cover: '',
-        price: 0
+        cover: 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png',
+        price: 0,
       },
       //封装所有的讲师
       teacherList: [
@@ -135,7 +135,8 @@ export default {
       //二级分类
       subjectTwoList: [
 
-      ]
+      ],
+      BASE_API: process.env.BASE_API //接口API地址
     }
   },
   created() {
@@ -190,6 +191,25 @@ export default {
       }
       //切换其他一级分类的时候清空二级分类的内容
       this.courseInfo.subjectId = ''
+    },
+    //上传封面成功调用的方法
+    handleAvatarSuccess(res, file){
+      this.courseInfo.cover = res.data.url
+    },
+    //上传之前
+    beforeAvatarUpload(file){
+      const isJPG  = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLT2M = file.size /1024 / 1024 < 2
+
+      if(!isJPG){
+        this.$message.error('上传图片只能是jpg或png格式')
+        this.courseInfo.cover = 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png'
+      }
+      if(isLT2M){
+        this.$message.error('上传图片不能大于2MB')
+        this.courseInfo.cover = 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png'
+      }
+
     }
   }
 }
