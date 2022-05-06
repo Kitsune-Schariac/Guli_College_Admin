@@ -39,13 +39,22 @@
 
 <!--      课程分类-->
       <el-form-item label="课程分类">
-        <el-select v-model="courseInfo.subjectParentId" placeholder="一级分类">
+        <el-select v-model="courseInfo.subjectParentId" placeholder="一级分类" @change="subjectLevelOneChange">
           <el-option
             v-for = "subject in subjectOneList"
             :key = "subject.id"
             :label="subject.title"
             :value="subject.id"/>
         </el-select>
+
+        <el-select v-model="courseInfo.subjectId" placeholder="二级分类">
+          <el-option
+            v-for = "subject in subjectTwoList"
+            :key = "subject.id"
+            :label="subject.title"
+            :value="subject.id"/>
+        </el-select>
+
       </el-form-item>
 
 
@@ -134,6 +143,8 @@ export default {
     this.getListTeacher()
     //初始化一级分类
     this.getOneSubject()
+    //初始化二级分类
+    // this.getTwoSubject()
 
   },
   methods: {
@@ -163,6 +174,22 @@ export default {
         .then(response => {
           this.subjectOneList = response.data.list
         })
+    },
+    //当点击某个一级分类，就触发这个事件，显示对应的二级分类
+    subjectLevelOneChange(value){
+    //  这里的value就是一级分类的id值
+    //   alert(value)
+      for(let i = 0 ; i < this.subjectOneList.length ; i++){
+        //每个一级分类
+        var oneSubject = this.subjectOneList[i]
+        //判断
+        if(value === oneSubject.id){
+          //从一级分类中获取二级分类
+          this.subjectTwoList = oneSubject.children
+        }
+      }
+      //切换其他一级分类的时候清空二级分类的内容
+      this.courseInfo.subjectId = ''
     }
   }
 }
