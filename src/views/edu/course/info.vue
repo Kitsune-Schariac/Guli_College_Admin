@@ -205,7 +205,7 @@ export default {
         this.$message.error('上传图片只能是jpg或png格式')
         this.courseInfo.cover = 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png'
       }
-      if(isLT2M){
+      if(!isLT2M){
         this.$message.error('上传图片不能大于2MB')
         this.courseInfo.cover = 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png'
       }
