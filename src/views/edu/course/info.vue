@@ -113,7 +113,10 @@ import subject from "@/api/edu/subject"
 import Tinymce from '@/components/Tinymce'
 export default {
   //声明组件
-  components: { Tinymce },
+  components: {
+    // Tinymce
+    Tinymce
+  },
   data() {
     return {
       saveBtnDisabled: false,
@@ -126,6 +129,7 @@ export default {
         description: '',
         cover: 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png',
         price: 0,
+        courseId: '',
       },
       //封装所有的讲师
       teacherList: [
@@ -139,19 +143,42 @@ export default {
       subjectTwoList: [
 
       ],
-      BASE_API: process.env.BASE_API //接口API地址
+      BASE_API: process.env.BASE_API, //接口API地址
+      editorConfig:{
+        language: 'zh_CN',
+        language_url: 'tinymce/zh_CN.js'
+      }
     }
   },
   created() {
-    //初始化所有讲师
-    this.getListTeacher()
-    //初始化一级分类
-    this.getOneSubject()
-    //初始化二级分类
-    // this.getTwoSubject()
+    this.init();
 
   },
+  watch: {
+    //监听
+    $route(to, from) {
+      //路由变化方式
+      console.log("wtch $route");
+      this.init();
+    },
+  },
   methods: {
+    init(){
+      //获取路由中的id值
+      if(this.$route.params && this.$route.params.id){
+        this.courseId = this.$route.params.id
+        console.log(this.courseId + "hello")
+        this.getCourseInfo()
+      }else {
+
+      }
+      //初始化所有讲师
+      this.getListTeacher()
+      //初始化一级分类
+      this.getOneSubject()
+      //初始化二级分类
+      // this.getTwoSubject()
+    },
     saveOrUpdate(){
       course.addCourseInfo(this.courseInfo)
         .then(response => {
@@ -213,6 +240,28 @@ export default {
         this.courseInfo.cover = 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png'
       }
 
+    },
+    //根据id查询课程信息
+    getCourseInfo(){
+      course.getCourseInfoId(this.courseId)
+        .then(res => {
+          this.courseInfo = res.data.courseInfoVo;
+          //查询所有分类
+          subject.getSubjectList()
+            .then(response => {
+              //获取所有一级分类
+              this.subjectOneList = response.data.list
+              //把所有一级分类数组进行遍历
+              for(var i = 0 ; i < this.subjectOneList.length ; i++){
+                var subjectOne = this.subjectOneList[i]
+                if(this.courseInfo.subjectParentId == subjectOne.id){
+                  //取出这个一级分类的二级分类，就做到了数据回显
+                  this.subjectTwoList = subjectOne.children
+                }
+              }
+              this.getListTeacher()
+            })
+        })
     }
   }
 }

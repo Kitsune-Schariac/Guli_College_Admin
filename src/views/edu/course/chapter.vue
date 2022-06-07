@@ -8,6 +8,24 @@
       <el-step title="创建课程大纲"/>
       <el-step title="最终发布"/>
     </el-steps>
+
+    <ul class="chanpterList">
+      <!--      先遍历章节-->
+      <li v-for="chapter in chapterVideoList" :key="chapter.id">
+        <p>
+          {{ chapter.title }}
+        </p>
+        <ul class="chanpterList videoList">
+          <!--然后遍历小节-->
+          <li v-for="video in chapter.children" :key="video.id">
+            <p>
+              {{ video.title }}
+            </p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
     <el-form label-width="120px">
 
       <el-form-item>
@@ -20,24 +38,104 @@
 </template>
 
 <script>
+import chapter from '@/api/edu/chapter'
+
 export default {
   data() {
     return {
-      saveBtnDisabled: false
+      saveBtnDisabled: false,
+      courseId: '', //课程id
+      chapterVideoList: [],
+
     }
   },
   created() {
 
+    //获取路由中的id值
+    if (this.$route.params && this.$route.params.id) {
+      this.courseId = this.$route.params.id
+      this.getAllChapterVideo()
+    }
+
+
   },
   methods: {
-    next(){
-      //跳转到第二步
-      this.$router.push({path : '/course/publish/1'})
+    //根据课程id查询章节和小节的数据列表
+    getAllChapterVideo() {
+      chapter.getChapterVideoByCourseId(this.courseId)
+        .then(response => {
+          this.chapterVideoList = response.data.list;
+          // console.log(this.chapterVideoList)
+          // console.log(response.data.list)
+        })
     },
-    previous(){
+
+    next() {
+      //跳转到第二步
+      this.$router.push({path: '/course/publish/1'})
+    },
+    previous() {
       //跳转到第一步
-      this.$router.push({path : '/course/info/1'})
+      this.$router.push({path: '/course/info/' + this.courseId})
     }
   }
 }
 </script>
+
+<style scoped>
+
+.chanpterList {
+   position: relative;
+   list-style: none;
+   margin: 0;
+   padding: 0;
+
+}
+
+
+.chanpterList li {
+   position: relative;
+
+}
+
+
+.chanpterList p {
+   float: left;
+   font-size: 20px;
+   margin: 10px 0;
+   padding: 10px;
+   height: 70px;
+   line-height: 50px;
+   width: 100%;
+   border: 1px solid #DDD;
+
+}
+
+
+.chanpterList .acts {
+   float: right;
+   font-size: 14px;
+
+}
+
+
+
+.videoList {
+   padding-left: 50px;
+
+}
+
+
+.videoList p {
+   float: left;
+   font-size: 14px;
+   margin: 10px 0;
+   padding: 10px;
+   height: 50px;
+   line-height: 30px;
+   width: 100%;
+   border: 1px dotted #DDD;
+
+}
+
+</style>
