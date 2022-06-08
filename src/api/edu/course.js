@@ -24,11 +24,11 @@ export default {
     })
   },
   //修改课程信息
-  updateCourseInfo(courseInfoVo){
+  updateCourseInfo(courseInfo){
     return request ({
       url: '/eduservice/edu-course/updateCourseInfo',
       method: 'post',
-      data : courseInfoVo
+      data : courseInfo
     })
   },
 }

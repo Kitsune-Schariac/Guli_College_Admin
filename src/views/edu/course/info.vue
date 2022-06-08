@@ -111,6 +111,7 @@
 import course from '@/api/edu/course'
 import subject from "@/api/edu/subject"
 import Tinymce from '@/components/Tinymce'
+import Tiny from '@/components/Tinymce/index'
 export default {
   //声明组件
   components: {
@@ -158,7 +159,7 @@ export default {
     //监听
     $route(to, from) {
       //路由变化方式
-      console.log("wtch $route");
+      console.log("witch $route");
       this.init();
     },
   },
@@ -169,17 +170,33 @@ export default {
         this.courseId = this.$route.params.id
         console.log(this.courseId + "hello")
         this.getCourseInfo()
+
       }else {
+        this.courseInfo.title = ''
+        this.courseInfo.subjectId = ''
+        this.courseInfo.subjectParentId = ''
+        this.courseInfo.teacherId = ''
+        this.courseInfo.lessonNum = 0;
+
+        this.courseInfo.cover = 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png'
+        this.courseInfo.price = 0
+        this.courseInfo.courseId = ''
+        //todo 富文本编辑器无法清空 2022年6月8日20:44:03
+        // Tinymce.setContent(' ');
+        this.courseInfo.description = ''
 
       }
+
+      console.log("init")
       //初始化所有讲师
       this.getListTeacher()
       //初始化一级分类
       this.getOneSubject()
       //初始化二级分类
       // this.getTwoSubject()
+
     },
-    saveOrUpdate(){
+    addCourse(){
       course.addCourseInfo(this.courseInfo)
         .then(response => {
           //提示
@@ -190,6 +207,25 @@ export default {
           //跳转到第二步
           this.$router.push({path : '/course/chapter/'+response.data.courseId})
         })
+    },
+    updateCourse(){
+      course.updateCourseInfo(this.courseInfo)
+        .then(response => {
+          //提示
+          this.$message({
+            type: "success",
+            message: "修改成功!",
+          })
+          //跳转到第二步
+          this.$router.push({path : '/course/chapter/'+this.courseInfo.id})
+        })
+    },
+    saveOrUpdate(){
+      if(this.courseInfo.id != null){
+        this.updateCourse();
+      }else {
+        this.addCourse();
+      }
 
     },
     //查询所有的讲师
@@ -199,6 +235,7 @@ export default {
           this.teacherList = response.data.items
         })
     },
+
     //查询所有的一级课程分类
     getOneSubject(){
       subject.getSubjectList()
