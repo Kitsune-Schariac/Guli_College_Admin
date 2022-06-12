@@ -44,5 +44,27 @@ export default {
       url: `/eduservice/edu-course/publishCourse/${id}`,
       method: 'post'
     })
+  },
+  //获取所有数据
+  allCourse(){
+    return request({
+      url: '/eduservice/edu-course/allCourse',
+      method: 'get'
+    })
+  },
+  //分页条件查询课程
+  coursePageCondition(page, limit, courseQuery){
+    return request({
+      url: `/eduservice/edu-course/coursePageQuery/${page}/${limit}`,
+      method: 'post',
+      data: courseQuery
+    })
+  },
+  //删除课程的方法
+  deleteLogic(id){
+    return request({
+      url: '/eduservice/edu-course/deleteByIdLogic/' + id,
+      method: 'delete'
+    })
   }
 }
