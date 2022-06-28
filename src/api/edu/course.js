@@ -60,10 +60,17 @@ export default {
       data: courseQuery
     })
   },
-  //删除课程的方法
+  //删除课程的方法(已停用)
   deleteLogic(id){
     return request({
       url: '/eduservice/edu-course/deleteByIdLogic/' + id,
+      method: 'delete'
+    })
+  },
+  //删除课程的方法(完整)
+  deleteCourse(id){
+    return request({
+      url: `/eduservice/edu-course/deleteCourse/${id}`,
       method: 'delete'
     })
   }

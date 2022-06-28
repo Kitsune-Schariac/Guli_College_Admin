@@ -142,6 +142,7 @@ export default {
         videoOriginalName: '' //视频名称
 
       },
+      fileList: [],
 
     }
   },
@@ -157,11 +158,31 @@ export default {
   },
   methods: {
 
+    //点击确定删除调用的方法
+    handleVodRemove(){
+      //调用删除视频的方法
+      video.deleteAliVideoById(this.video.videoSourceId)
+        .then(response => {
+          //清空文件列表和id和名称
+          this.fileList = []
+          this.video.videoSourceId = ''
+          this.video.videoOriginalName = ''
+
+          this.$message({
+            type: 'success',
+            message: '删除视频成功'
+          })
+        })
+    },
+    //删除视频的方法
+    beforeVodRemove(file, fileList){
+      return this.$confirm(`确定移除${file.name}`)
+    },
     //上传视频成功调用的方法
     handleVodUploadSuccess(response, file, fileList) {
       //上传视频id赋值
       this.video.videoSourceId = response.data.videoId
-      //名称赋值
+      //上传视频名称赋值
       this.video.videoOriginalName = file.name
     },
     handleUploadExceed(){

@@ -253,7 +253,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        course.deleteLogic(id)
+        // course.deleteLogic(id)
+        course.deleteCourse(id)
           .then(res => {
             this.$message({
               type: 'success',
