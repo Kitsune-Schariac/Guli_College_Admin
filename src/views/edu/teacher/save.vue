@@ -37,7 +37,7 @@
       :key：类似于id，如果一个页面多个图片上传控件，可以做区分
       :url：后台上传的url地址
       @close：关闭上传组件
-      @crop-upload-success：上传成功后的回调 
+      @crop-upload-success：上传成功后的回调
         <input type="file" name="file"/>
       -->
               <image-cropper
@@ -95,7 +95,7 @@ export default {
         avatar: "https://private-kitsune.oss-cn-chengdu.aliyuncs.com/2022/02/27/f1c5c7dd78b747edb07353ee97fd24d9file.png",
         // 这里如果不写具体的字段会自动生成
       },
-      
+
       imagecropperShow:false,  //上传弹框组件是否显示
       imagecropperKey:0,//上传组件key值（唯一标识)
       BASE_API:process.env.BASE_API, //获取dev.env.js里面的地址
@@ -129,7 +129,7 @@ export default {
       this.imagecropperShow = false;
       // 上传之后接口返回图片地址
       this.teacher.avatar = data.url;
-      
+
       this.imagecropperKey = this.imagecropperKey + 1;
     },
 
@@ -142,6 +142,7 @@ export default {
         this.getTeacherInfo(id);
       } else {
         this.teacher = {};
+        this.teacher.avatar = 'https://private-kitsune.oss-cn-chengdu.aliyuncs.com/2022/02/27/f1c5c7dd78b747edb07353ee97fd24d9file.png'
       }
     },
     saveOrUpdate() {
