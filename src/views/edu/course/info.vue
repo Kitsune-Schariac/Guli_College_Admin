@@ -172,7 +172,7 @@ export default {
         this.courseInfo.cover = 'https://edu-guli-kitsune.oss-cn-chengdu.aliyuncs.com/2022/03/06/7c67c19b699a419982c1080839eb7340file.png'
         this.courseInfo.price = 0
         this.courseInfo.courseId = ''
-        // todo 富文本编辑器无法清空 2022年6月8日20:44:03
+        // todo 富文本编辑器无法清空 2022年6月8日20:44:03 @kitsune
         // Tinymce.setContent(' ');
         this.courseInfo.description = ''
       }
