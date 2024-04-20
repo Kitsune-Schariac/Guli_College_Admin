@@ -73,11 +73,12 @@
 
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <router-link :to="'edit/' + scope.row.id">
-            <el-button type="primary" size="mini" icon="el-icon-edit"
-              >修改</el-button
-            >
-          </router-link>
+<!--          <router-link :to="'/edu/teacher/create/' + scope.row.id">-->
+<!--            -->
+<!--          </router-link>-->
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editTeacher(scope.row.id)"
+          >修改</el-button
+          >
           <el-button
             type="danger"
             size="mini"
@@ -177,6 +178,11 @@ export default {
         //     message: "已取消删除",
         //   });
         // });
+    },
+    //跳转到修改页面
+    editTeacher(id) {
+      console.log(id);
+      this.$router.push({ path: "/edu/teacher/create/" + id});
     },
   },
 };

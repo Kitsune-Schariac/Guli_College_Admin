@@ -139,6 +139,7 @@ export default {
         // 从路径获取id值
         const id = this.$route.params.id;
         // 调用拉取数据的方法
+        console.log("id", id);
         this.getTeacherInfo(id);
       } else {
         this.teacher = {};
@@ -164,7 +165,7 @@ export default {
           message: "添加成功",
         });
         // 回到列表页面 路由跳转
-        this.$router.push({ path: "/teacher/table" });
+        this.$router.push({ path: "/edu/teacher/list" });
       });
     },
 
@@ -183,7 +184,7 @@ export default {
           message: "修改成功",
         });
         // 回到列表页面 路由跳转
-        this.$router.push({ path: "/teacher/table" });
+        this.$router.push({ path: "/edu/teacher/list" });
       });
     },
   },

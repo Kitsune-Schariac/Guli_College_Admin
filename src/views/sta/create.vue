@@ -37,7 +37,7 @@ export default {
             message : '生成成功'
           })
           //跳转到图标显示页面
-          this.$router.push({path: '/sta/show'})
+          this.$router.push({path: '/statistics/daily/chart'})
         })
     }
 

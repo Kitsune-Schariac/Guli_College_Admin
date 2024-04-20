@@ -70,7 +70,7 @@ export default {
               type: 'success',
               message: '发布成功'
             })
-            this.$router.push({path: '/course/list'})
+            this.$router.push({path: '/edu/course/list'})
           })
       })
 
@@ -79,11 +79,11 @@ export default {
 
     next(){
       //跳转到第二步
-      this.$router.push({path : '/course/publish/1'})
+      this.$router.push({path : '/edu/course/publish/1'})
     },
     previous(){
       //跳转到第二步
-      this.$router.push({path : '/course/chapter/' + this.courseId})
+      this.$router.push({path : '/edu/course/chapter/' + this.courseId})
     },
   }
 }

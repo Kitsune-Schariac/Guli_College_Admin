@@ -194,7 +194,7 @@ export default {
             message: '保存成功!'
           })
           // 跳转到第二步
-          this.$router.push({path: '/course/chapter/' + response.data.courseId})
+          this.$router.push({path: '/edu/course/chapter/' + response.data.courseId})
         })
     },
     updateCourse() {
@@ -206,7 +206,7 @@ export default {
             message: '修改成功!'
           })
           // 跳转到第二步
-          this.$router.push({path: '/course/chapter/' + this.courseInfo.id})
+          this.$router.push({path: '/edu/course/chapter/' + this.courseInfo.id})
         })
     },
     saveOrUpdate() {
